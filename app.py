@@ -75,47 +75,47 @@ SCOPES = [
     "https://www.googleapis.com/auth/drive.readonly",
 ]
 
-# @st.cache_resource
-# def get_gsheet_client():
-
-#     def fix_private_key(key: str) -> str:
-#         key = key.replace("\\n", "\n")
-#         lines = [l.strip() for l in key.strip().splitlines() if l.strip()]
-#         header  = lines[0]
-#         footer  = lines[-1]
-#         b64body = "".join(lines[1:-1])
-#         b64body = b64body.replace(" ", "").replace("\t", "")
-#         wrapped = "\n".join(b64body[i:i+64] for i in range(0, len(b64body), 64))
-#         return f"{header}\n{wrapped}\n{footer}\n"
-
-#     # if "gcp_service_account" in st.secrets:
-#     #     info = dict(st.secrets["gcp_service_account"])
-#     #     info["private_key"] = fix_private_key(info["private_key"])
-#     #     creds = Credentials.from_service_account_info(info, scopes=SCOPES)
-
-#     if os.path.exists("./credentials.json"):
-#         # ✅ Read directly from file — no string manipulation needed
-#         creds = Credentials.from_service_account_file(
-#             "./credentials.json", scopes=SCOPES
-#         )
-
-#     else:
-#         st.error("❌ No credentials found. Put credentials.json in the app folder.")
-#         st.stop()
-
-#     return gspread.authorize(creds)
 @st.cache_resource
 def get_gsheet_client():
 
-    if os.path.exists("credentials.json"):
+    def fix_private_key(key: str) -> str:
+        key = key.replace("\\n", "\n")
+        lines = [l.strip() for l in key.strip().splitlines() if l.strip()]
+        header  = lines[0]
+        footer  = lines[-1]
+        b64body = "".join(lines[1:-1])
+        b64body = b64body.replace(" ", "").replace("\t", "")
+        wrapped = "\n".join(b64body[i:i+64] for i in range(0, len(b64body), 64))
+        return f"{header}\n{wrapped}\n{footer}\n"
+
+    if "gcp_service_account" in st.secrets:
+        info = dict(st.secrets["gcp_service_account"])
+        info["private_key"] = fix_private_key(info["private_key"])
+        creds = Credentials.from_service_account_info(info, scopes=SCOPES)
+
+    if os.path.exists("./credentials.json"):
+        # ✅ Read directly from file — no string manipulation needed
         creds = Credentials.from_service_account_file(
-            "credentials.json", scopes=SCOPES
+            "./credentials.json", scopes=SCOPES
         )
+
     else:
-        st.error("❌ credentials.json not found")
+        st.error("❌ No credentials found. Put credentials.json in the app folder.")
         st.stop()
 
     return gspread.authorize(creds)
+# @st.cache_resource
+# def get_gsheet_client():
+
+#     if os.path.exists("credentials.json"):
+#         creds = Credentials.from_service_account_file(
+#             "credentials.json", scopes=SCOPES
+#         )
+#     else:
+#         st.error("❌ credentials.json not found")
+#         st.stop()
+
+#     return gspread.authorize(creds)
 
 
 @st.cache_data(ttl=30)
