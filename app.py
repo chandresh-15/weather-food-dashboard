@@ -107,9 +107,9 @@ SCOPES = [
 @st.cache_resource
 def get_gsheet_client():
 
-    if os.path.exists("./credentials.json"):
+    if os.path.exists("credentials.json"):
         creds = Credentials.from_service_account_file(
-            "./credentials.json", scopes=SCOPES
+            "credentials.json", scopes=SCOPES
         )
     else:
         st.error("❌ credentials.json not found")
