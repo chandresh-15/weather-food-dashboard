@@ -116,7 +116,7 @@ SCOPES = [
 #         st.stop()
 
 #     return gspread.authorize(creds)
-# SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
+SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
 
 @st.cache_resource
 def get_gsheet_client():
