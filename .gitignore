@@ -1,0 +1,6 @@
+# Credentials — NEVER commit these
+credentials.json
+.streamlit/secrets.toml
+*.env
+__pycache__/
+.DS_Store
